@@ -152,15 +152,23 @@ int main(int argc, char *argv[])
                         char score_message[50];
                         sprintf(score_message, "Your quiz score is %d/5. Goodbye!\n", score);
                         send(cfd, score_message, sizeof(score_message)+1, 0);
+
+                        char receive_quit[16];
+                        recv(cfd,receive_quit, 16, 0);
+                        int quit_received = 0;
+                        quit_received = atoi(receive_quit);
+                        if(quit_received == 1) {
+                            exit(0);
+                        }
                     }
 
                 }
-                if (quit_flag == 1)
-                    exit(0);
+                /*if (quit_flag == 1)
+                    exit(0);*/
                 break;
             default:
                 wait(NULL);
-                exit(0);
+                //exit(0);
                 break;
         }
     }

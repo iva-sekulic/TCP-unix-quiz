@@ -99,7 +99,11 @@ int main(int argc, char *argv[])
         }
         recv(cfd, score, BUFSIZE, 0);
         fprintf(stdout, "%s", score);
+        free(score);
         quit_flag = 1;
+        char send_quit_flag[16];
+        sprintf(send_quit_flag, "%d", quit_flag);
+        send(cfd, send_quit_flag, strlen(send_quit_flag), 0);
         if(quit_flag == 1){
             exit(0);
         }
