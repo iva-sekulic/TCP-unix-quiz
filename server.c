@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
                         exit(-1);
                     }
                     //char incorrect_message[BUFSIZE];
-                    //char * incorrect_message = "Wrong Answer. Right Answer is ";
+                    char * incorrect_message = "Wrong Answer. Right Answer is ";
                     int num_sent = 0;
                     int score = 0;
                     int y_q = recv(cfd, Y_q, 1, 0);
@@ -104,6 +104,7 @@ int main(int argc, char *argv[])
                             char* question = QuizQ[question_number];
                             char* answer = QuizA[question_number];
                             int question_nbytes = send(cfd, question, strlen(question), 0);
+                            question_nbytes = send(cfd, "\n", 2, 0);
                             if (question_nbytes == -1) {
                                 fprintf(stderr, "send() error.\n");
                                 break;
@@ -126,13 +127,13 @@ int main(int argc, char *argv[])
                                 question_nbytes = send(cfd, "Correct\n", 8, 0);
                                 score++;
                             } else {
-                                question_nbytes = send(cfd, "Incorrect\n", 10, 0);
+                                //question_nbytes = send(cfd, "Incorrect\n", 10, 0);
                                 //memset(incorrect_message, 0, sizeof(incorrect_message));
                                 //strcpy(incorrect_message, "Wrong Answer. Right Answer is ");
                                 //strcat(incorrect_message, answer);
-                                //question_nbytes = send(cfd, incorrect_message, strlen(incorrect_message), 0);
-                                //question_nbytes = send(cfd, answer, strlen(answer), 0);
-                                //question_nbytes = send(cfd, "\n", 2, 0);
+                                send(cfd, incorrect_message, strlen(incorrect_message), 0);
+                                send(cfd, answer, strlen(answer), 0);
+                                send(cfd, "\n", 1, 0);
                             }
 
                             if (question_nbytes == -1) {

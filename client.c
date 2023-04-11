@@ -81,8 +81,8 @@ int main(int argc, char *argv[])
             } else if (nbytes_questions == 0) { // the other connection has closed the socket (ctrl-C)
                 break;
             }
-            questions[nbytes_questions] = '\0';
-            fprintf(stdout, "%s\n", questions);
+            //questions[nbytes_questions] = '\0';
+            fprintf(stdout, "%s", questions);
             fflush(stdout);
             fflush(stdin);
             char* client_answers = NULL;
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
                 exit(-1);
             }
             client_answers[nread-1] = '\0';
-            send(cfd, client_answers, nread+1 ,0);
+            send(cfd, client_answers, strlen(client_answers) ,0);
             answers++;
         }
         recv(cfd, score, BUFSIZE, 0);
