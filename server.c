@@ -12,7 +12,7 @@
 
 #define BACKLOG 128
 #define BUFSIZE 1024
-//#define quit "q\n"
+int array_contains(int* array, int size, int value);
 
 int main(int argc, char *argv[]) 
 {
@@ -63,8 +63,13 @@ int main(int argc, char *argv[])
     char *quit = "q";
     int quit_flag = 0;
     int questions[5];
+    
     for (int i = 0; i < 5; i++) {
-        questions[i] = rand() % total_questions; // select a random number between 0 and 44
+        int rand_num;
+        do {
+            rand_num = rand() % total_questions;
+        } while (array_contains(questions, i, rand_num)); // check if the array already contains the random number
+        questions[i] = rand_num;
     }
 
     while(1)  {
@@ -163,3 +168,12 @@ int main(int argc, char *argv[])
         return 0;
 }
 
+// function to check if an array contains a value
+int array_contains(int* array, int size, int value) {
+    for (int i = 0; i < size; i++) {
+        if (array[i] == value) {
+            return 1;
+        }
+    }
+    return 0;
+}

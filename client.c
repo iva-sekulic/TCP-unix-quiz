@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
     int nbytes, nbytes_questions;
     int answers = 0;
     char *quit = "q";
+    int quit_flag = 0;
 
     while (1) {
 
@@ -98,6 +99,11 @@ int main(int argc, char *argv[])
         }
         recv(cfd, score, BUFSIZE, 0);
         fprintf(stdout, "%s", score);
+        quit_flag = 1;
+        if(quit_flag == 1){
+            exit(0);
+        }
+
     }
 
     close(cfd);
