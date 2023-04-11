@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
                                 //strcat(incorrect_message, answer);
                                 send(cfd, incorrect_message, strlen(incorrect_message), 0);
                                 send(cfd, answer, strlen(answer), 0);
-                                send(cfd, "\n", 1, 0);
+                                send(cfd, ".\n", 2, 0);
                             }
 
                             if (question_nbytes == -1) {

@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 
     char buf[BUFSIZE];
     char questions[BUFSIZE];
-    char  *score = NULL;
+    char* score = malloc(BUFSIZE);
     int nbytes, nbytes_questions;
     int answers = 0;
     char *quit = "q";
