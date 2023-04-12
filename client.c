@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
         if(strcmp(input, quit) == 0){
             exit(1);
         }
-        while(answers < 5 ) {
+        while(answers < 5 ) { // beginning of the quiz
             nbytes_questions = recv(cfd, questions, BUFSIZE, 0);
             if (nbytes_questions == -1) {
                 fprintf(stderr, "recv() error.\n");
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
             } else if (nbytes_questions == 0) { // the other connection has closed the socket (ctrl-C)
                 break;
             }
-            //questions[nbytes_questions] = '\0';
+ 
             fprintf(stdout, "%s", questions);
             fflush(stdout);
             fflush(stdin);
@@ -93,21 +93,27 @@ int main(int argc, char *argv[])
                 fprintf(stderr, "getline() error.\n");
                 exit(-1);
             }
+
             client_answers[nread-1] = '\0';
             send(cfd, client_answers, strlen(client_answers) ,0);
             answers++;
         }
-        recv(cfd, score, BUFSIZE, 0);
+
+        int nbytes_score = recv(cfd, score, BUFSIZE, 0);
+        if (nbytes_score == -1) {
+            fprintf(stderr, "recv() error.\n");
+            exit(-1);
+        } else if (nbytes_score == 0) { // the other connection has closed the socket (ctrl-C)
+            break;
+        }
+        
         fprintf(stdout, "%s", score);
         free(score);
         quit_flag = 1;
         char send_quit_flag[16];
         sprintf(send_quit_flag, "%d", quit_flag);
         send(cfd, send_quit_flag, strlen(send_quit_flag), 0);
-        if(quit_flag == 1){
             exit(0);
-        }
-
     }
 
     close(cfd);
