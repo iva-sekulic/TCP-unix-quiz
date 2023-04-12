@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
         buf[nbytes] = '\0';
         fprintf(stdout, "%s", buf);
         fflush(stdout);
-        char* input = NULL;
+        char* input = malloc(BUFSIZE);
         size_t len = 0;
         ssize_t nread = getline(&input, &len, stdin);
             if (nread == -1) {
@@ -70,10 +70,16 @@ int main(int argc, char *argv[])
                 exit(-1);
             }
         input[nread-1] = '\0';
+        
+        while((strcmp(input, quit) != 0) && (strcmp(input, "Y") != 0)){ // error check 
+            fprintf(stdout, "Please only input 'q' or 'Y'\n");
+            nread = getline(&input, &len, stdin);
+            input[nread-1] = '\0';
+        }
         send(cfd, input, strlen(input),0);
         if(strcmp(input, quit) == 0){
             exit(1);
-        }
+        } 
         while(answers < 5 ) { // beginning of the quiz
             nbytes_questions = recv(cfd, questions, BUFSIZE, 0);
             if (nbytes_questions == -1) {

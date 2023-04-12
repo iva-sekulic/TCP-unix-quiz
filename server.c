@@ -127,7 +127,8 @@ int main(int argc, char *argv[])
                                     fprintf(stderr, "recv() error.\n");
                                     break;
                                 } else if (question_nbytes == 0) {
-                                    fprintf(stderr, "Client closed connection.\n");
+                                    fprintf(stderr, "[-]Client closed connection.\n");
+                                    exit(0);
                                     break;
                                 }
                                 buf[question_nbytes] = '\0';
@@ -167,7 +168,8 @@ int main(int argc, char *argv[])
                                 fprintf(stderr, "recv() error.\n");
                                 break;
                             } else if (quit_nbytes == 0) {
-                                fprintf(stderr, "Client closed connection.\n");
+                                fprintf(stderr, "[-]Client closed connection.\n");
+                                exit(0);
                                 break;
                             }
                             int quit_received = 0;
